@@ -1,0 +1,13 @@
+author: bwfcwalshy
+version: 1.0
+name: Kickstarter
+main: com.bwfcwalshy.kickstarter.Main
+commands:
+    kickstarter:
+       description: Main kickstarter Command
+       usage:
+permissions:
+    kickstarter.kickstarter:
+       default: op
+    kickstarter.admin:
+       default: op
