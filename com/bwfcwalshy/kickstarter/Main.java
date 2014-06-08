@@ -1,13 +1,16 @@
 package com.bwfcwalshy.kickstarter;
 
+import java.io.File;
+
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.bwfcwalshy.kickstarter.commands.MainCommand;
+import com.bwfcwalshy.kickstarter.commands.Kickstarter;
 
 public class Main
   extends JavaPlugin
@@ -15,8 +18,18 @@ public class Main
   public static Economy econ = null;
   
   public void onEnable(){
+	  File file = new File(getDataFolder(), "config.yml");
+	  if(!file.exists()){
+		  try{
+			  file.createNewFile();
+		  } catch (Exception e){
+			  e.printStackTrace();
+		  }
+	  }
 	  
-	  getCommand("kickstarter").setExecutor(new MainCommand());
+	  getCommand("kickstarter").setExecutor(new Kickstarter());
+	  
+	  initialiseConfig();
 	  
     if (!setupEconomy())
     {
@@ -40,5 +53,12 @@ public class Main
     }
     econ = (Economy)rsp.getProvider();
     return econ != null;
+  }
+  
+  public void initialiseConfig(){
+	  FileConfiguration config = getConfig();
+	  
+	  config.options().copyDefaults(true);
+	  saveConfig();
   }
 }
